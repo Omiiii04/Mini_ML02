@@ -1,11 +1,16 @@
+from pathlib import Path
 import streamlit as st
 import pandas as pd
 import joblib
 
+# Paths to saved model artifacts
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_DIR = BASE_DIR / "models"
+
 # Load saved model, scaler, and expected columns
-model = joblib.load("KNN.pkl")
-scaler = joblib.load("scaler.pkl")
-expected_columns = joblib.load("columns.pkl")
+model = joblib.load(MODEL_DIR / "KNN.pkl")
+scaler = joblib.load(MODEL_DIR / "scaler.pkl")
+expected_columns = joblib.load(MODEL_DIR / "columns.pkl")
 
 st.title("Heart Stroke Prediction")
 st.markdown("Provide the following details to check your heart stroke risk:")
