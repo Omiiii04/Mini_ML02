@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioSense — Heart Stroke Risk Predictor</title>
+  <meta name="description" content="AI-powered heart stroke risk assessment using a K-Nearest Neighbours model trained on clinical data. Get your risk score in seconds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..800;1,14..32,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/base.css" />
+  <link rel="stylesheet" href="/static/css/index.css" />
+</head>
+<body>
+
+  <!-- ── Nav ─────────────────────────────────────────────────────────────── -->
+  <nav class="nav" id="main-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" id="nav-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <circle cx="14" cy="14" r="14" fill="url(#logoGrad)"/>
+          <path d="M8 14 C8 10 11 7 14 7 C17 7 20 10 20 14 L14 21 Z" fill="white" opacity="0.9"/>
+          <path d="M14 7 C17 7 20 10 20 14 C20 18 17 21 14 21 Z" fill="white" opacity="0.6"/>
+          <circle cx="14" cy="12" r="2" fill="url(#logoGrad2)"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="28" y2="28">
+              <stop stop-color="#FF375F"/>
+              <stop offset="1" stop-color="#BF5AF2"/>
+            </linearGradient>
+            <linearGradient id="logoGrad2" x1="0" y1="0" x2="1" y2="1">
+              <stop stop-color="#FF6B6B"/>
+              <stop offset="1" stop-color="#FF375F"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>CardioSense</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link" id="nav-features">Features</a>
+        <a href="#how-it-works" class="nav-link" id="nav-how">How it works</a>
+        <a href="#disclaimer" class="nav-link" id="nav-disclaimer">Disclaimer</a>
+        <a href="/predict" class="btn-primary nav-cta" id="nav-cta">Check My Risk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+  <section class="hero" id="hero" aria-label="Hero section">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+      <div class="hero-orb orb-3"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge" id="hero-badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        AI-Powered Risk Assessment
+      </div>
+      <h1 class="hero-title" id="hero-title">
+        Know Your Heart,<br/>
+        <span class="gradient-text">Before It Knows You.</span>
+      </h1>
+      <p class="hero-subtitle" id="hero-subtitle">
+        CardioSense uses a clinically-trained K-Nearest Neighbours model to
+        evaluate your cardiovascular risk in seconds — no appointment needed.
+      </p>
+      <div class="hero-actions" id="hero-actions">
+        <a href="/predict" class="btn-hero-primary" id="hero-cta-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2L13.09 8.26L19 7L14.74 11.74L21 12L14.74 12.26L19 17L13.09 15.74L12 22L10.91 15.74L5 17L9.26 12.26L3 12L9.26 11.74L5 7L10.91 8.26L12 2Z" fill="currentColor"/>
+          </svg>
+          Get My Risk Score
+        </a>
+        <a href="#how-it-works" class="btn-hero-secondary" id="hero-cta-secondary">
+          Learn How It Works
+        </a>
+      </div>
+      <div class="hero-stats" id="hero-stats" aria-label="Key statistics">
+        <div class="stat-chip">
+          <span class="stat-num">918</span>
+          <span class="stat-label">Training Records</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-num">11</span>
+          <span class="stat-label">Clinical Features</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-num">KNN</span>
+          <span class="stat-label">ML Algorithm</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="card-float" id="hero-card">
+        <div class="card-float-inner">
+          <div class="ecg-animation">
+            <svg viewBox="0 0 300 80" preserveAspectRatio="none">
+              <polyline class="ecg-line" points="0,40 30,40 45,40 50,10 55,70 60,40 80,40 90,40 95,20 100,60 105,40 130,40 145,40 150,10 155,70 160,40 180,40 190,40 195,20 200,60 205,40 230,40 245,40 250,10 255,70 260,40 300,40"/>
+            </svg>
+          </div>
+          <div class="card-float-label">Live ECG Pattern</div>
+          <div class="card-float-risk">
+            <div class="risk-ring" style="--risk: 72%">
+              <svg viewBox="0 0 36 36">
+                <circle class="ring-bg" cx="18" cy="18" r="15.9"/>
+                <circle class="ring-fill" cx="18" cy="18" r="15.9" stroke-dasharray="72 100"/>
+              </svg>
+              <span class="risk-val">72%</span>
+            </div>
+            <div>
+              <div class="risk-label-main">Risk Score</div>
+              <div class="risk-label-sub">Example output</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features ──────────────────────────────────────────────────────────── -->
+  <section class="features-section" id="features" aria-labelledby="features-heading">
+    <div class="section-inner">
+      <div class="section-label">Why CardioSense</div>
+      <h2 class="section-title" id="features-heading">Built for Clarity &amp; Precision</h2>
+      <p class="section-sub">Two ways to assess your risk. One powerful model underneath.</p>
+
+      <div class="features-grid" role="list">
+        <article class="feature-card" role="listitem" id="feature-manual">
+          <div class="feature-icon" style="--accent: #FF375F" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Manual Input</h3>
+          <p class="feature-desc">Enter your clinical parameters via our guided, validated form. Sliders, selectors and real-time range feedback make it effortless.</p>
+        </article>
+
+        <article class="feature-card" role="listitem" id="feature-upload">
+          <div class="feature-icon" style="--accent: #BF5AF2" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">File Upload</h3>
+          <p class="feature-desc">Upload a CSV or text file containing your health data and get an instant prediction without filling in every field manually.</p>
+        </article>
+
+        <article class="feature-card" role="listitem" id="feature-instant">
+          <div class="feature-icon" style="--accent: #30D158" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Instant Results</h3>
+          <p class="feature-desc">Results render in milliseconds with a clear risk percentage, a colour-coded verdict and actionable next-step guidance.</p>
+        </article>
+
+        <article class="feature-card" role="listitem" id="feature-privacy">
+          <div class="feature-icon" style="--accent: #0A84FF" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Privacy First</h3>
+          <p class="feature-desc">All data is processed locally in your session. Nothing is stored or transmitted to third parties. Your health data stays yours.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How it Works ───────────────────────────────────────────────────────── -->
+  <section class="how-section" id="how-it-works" aria-labelledby="how-heading">
+    <div class="section-inner">
+      <div class="section-label">The Process</div>
+      <h2 class="section-title" id="how-heading">Three Steps to Clarity</h2>
+
+      <ol class="steps-list" aria-label="Steps to get your risk score">
+        <li class="step-item" id="step-1">
+          <div class="step-num" aria-label="Step 1">01</div>
+          <div class="step-body">
+            <h3 class="step-title">Enter Your Details</h3>
+            <p class="step-desc">Provide your age, blood pressure, cholesterol, ECG readings, and other clinical markers via the intuitive prediction form.</p>
+          </div>
+        </li>
+        <li class="step-item" id="step-2">
+          <div class="step-num" aria-label="Step 2">02</div>
+          <div class="step-body">
+            <h3 class="step-title">Model Analysis</h3>
+            <p class="step-desc">Our KNN model — trained on 918 patient records — scales your inputs and finds the most similar cases to determine your risk profile.</p>
+          </div>
+        </li>
+        <li class="step-item" id="step-3">
+          <div class="step-num" aria-label="Step 3">03</div>
+          <div class="step-body">
+            <h3 class="step-title">Get Your Score</h3>
+            <p class="step-desc">Receive a clear risk percentage, a Low / High verdict, and recommended next steps — all in under a second.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── CTA Banner ─────────────────────────────────────────────────────────── -->
+  <section class="cta-banner" id="cta-banner" aria-label="Call to action">
+    <div class="cta-inner">
+      <h2 class="cta-title">Ready to check your heart health?</h2>
+      <p class="cta-sub">Takes less than 2 minutes. No sign-up required.</p>
+      <a href="/predict" class="btn-hero-primary" id="cta-main-btn">
+        Start My Assessment
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Disclaimer ─────────────────────────────────────────────────────────── -->
+  <section class="disclaimer-section" id="disclaimer" aria-labelledby="disclaimer-heading">
+    <div class="section-inner">
+      <h2 class="disclaimer-title" id="disclaimer-heading">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Medical Disclaimer
+      </h2>
+      <p class="disclaimer-text">
+        CardioSense is an <strong>academic mini-project</strong> and is intended for educational purposes only.
+        Predictions made by this tool do <strong>not</strong> constitute medical advice, diagnosis, or treatment.
+        Always consult a qualified healthcare professional for medical concerns.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────────── -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg width="20" height="20" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <circle cx="14" cy="14" r="14" fill="url(#footerGrad)"/>
+          <path d="M8 14 C8 10 11 7 14 7 C17 7 20 10 20 14 L14 21 Z" fill="white" opacity="0.9"/>
+          <path d="M14 7 C17 7 20 10 20 14 C20 18 17 21 14 21 Z" fill="white" opacity="0.6"/>
+          <defs>
+            <linearGradient id="footerGrad" x1="0" y1="0" x2="28" y2="28">
+              <stop stop-color="#FF375F"/>
+              <stop offset="1" stop-color="#BF5AF2"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>CardioSense</span>
+      </div>
+      <p class="footer-copy">© 2024 Mini_ML02 Academic Project · Built with Flask &amp; scikit-learn</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/index.js"></script>
+</body>
+</html>

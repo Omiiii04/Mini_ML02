@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Predict — CardioSense Heart Risk Predictor</title>
+  <meta name="description" content="Enter your clinical details manually or upload a CSV file to get your personalised heart stroke risk prediction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..800;1,14..32,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/base.css" />
+  <link rel="stylesheet" href="/static/css/predict.css" />
+</head>
+<body class="predict-body">
+
+  <!-- ── Nav ─────────────────────────────────────────────────────────────── -->
+  <nav class="nav nav-opaque" id="main-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" id="nav-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <circle cx="14" cy="14" r="14" fill="url(#logoGrad)"/>
+          <path d="M8 14 C8 10 11 7 14 7 C17 7 20 10 20 14 L14 21 Z" fill="white" opacity="0.9"/>
+          <path d="M14 7 C17 7 20 10 20 14 C20 18 17 21 14 21 Z" fill="white" opacity="0.6"/>
+          <circle cx="14" cy="12" r="2" fill="url(#logoGrad2)"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="28" y2="28">
+              <stop stop-color="#FF375F"/>
+              <stop offset="1" stop-color="#BF5AF2"/>
+            </linearGradient>
+            <linearGradient id="logoGrad2" x1="0" y1="0" x2="1" y2="1">
+              <stop stop-color="#FF6B6B"/>
+              <stop offset="1" stop-color="#FF375F"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>CardioSense</span>
+      </a>
+      <a href="/" class="nav-back" id="nav-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to Home
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── Page header ───────────────────────────────────────────────────────── -->
+  <header class="predict-header" id="predict-header" aria-label="Page header">
+    <div class="predict-header-bg" aria-hidden="true">
+      <div class="ph-orb ph-orb-1"></div>
+      <div class="ph-orb ph-orb-2"></div>
+    </div>
+    <h1 class="predict-title" id="predict-title">
+      Heart Risk <span class="gradient-text">Assessment</span>
+    </h1>
+    <p class="predict-subtitle">Choose how you'd like to provide your health information below.</p>
+  </header>
+
+  <!-- ── Main content ───────────────────────────────────────────────────────── -->
+  <main class="predict-main" id="predict-main">
+
+    <!-- ── Tab switcher ────────────────────────────────────────────────────── -->
+    <div class="tab-bar" role="tablist" aria-label="Input method" id="tab-bar">
+      <button class="tab active" id="tab-manual" role="tab" aria-selected="true" aria-controls="panel-manual" data-target="manual">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Manual Input
+      </button>
+      <button class="tab" id="tab-upload" role="tab" aria-selected="false" aria-controls="panel-upload" data-target="upload">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Upload File
+      </button>
+    </div>
+
+    <!-- ── Manual form panel ──────────────────────────────────────────────── -->
+    <div class="panel active" id="panel-manual" role="tabpanel" aria-labelledby="tab-manual">
+      <form class="pred-form" id="manual-form" novalidate aria-label="Manual clinical data input form">
+
+        <div class="form-section">
+          <h2 class="form-section-title">Patient Information</h2>
+
+          <!-- Age -->
+          <div class="field-group" id="fg-age">
+            <label class="field-label" for="age">
+              Age
+              <span class="field-hint" id="age-hint">years</span>
+            </label>
+            <div class="slider-wrapper">
+              <input type="range" id="age" name="age" min="18" max="100" value="45"
+                     class="range-input" aria-describedby="age-hint age-val"
+                     aria-valuemin="18" aria-valuemax="100"/>
+              <span class="range-val" id="age-val" aria-live="polite">45</span>
+            </div>
+          </div>
+
+          <!-- Sex -->
+          <div class="field-group" id="fg-sex">
+            <label class="field-label">Sex</label>
+            <div class="seg-control" role="radiogroup" aria-label="Sex selection" id="seg-sex">
+              <button type="button" class="seg-btn active" data-field="sex" data-value="M" id="sex-M" aria-pressed="true">Male</button>
+              <button type="button" class="seg-btn"        data-field="sex" data-value="F" id="sex-F" aria-pressed="false">Female</button>
+            </div>
+            <input type="hidden" name="sex" id="hidden-sex" value="M"/>
+          </div>
+
+          <!-- Fasting Blood Sugar -->
+          <div class="field-group" id="fg-fbs">
+            <label class="field-label">Fasting Blood Sugar &gt; 120 mg/dL</label>
+            <div class="seg-control" role="radiogroup" aria-label="Fasting blood sugar" id="seg-fbs">
+              <button type="button" class="seg-btn active" data-field="fasting_bs" data-value="0" id="fbs-0" aria-pressed="true">No</button>
+              <button type="button" class="seg-btn"        data-field="fasting_bs" data-value="1" id="fbs-1" aria-pressed="false">Yes</button>
+            </div>
+            <input type="hidden" name="fasting_bs" id="hidden-fasting_bs" value="0"/>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2 class="form-section-title">Cardiovascular Markers</h2>
+
+          <!-- Resting BP -->
+          <div class="field-group" id="fg-rbp">
+            <label class="field-label" for="resting_bp">
+              Resting Blood Pressure
+              <span class="field-hint" id="rbp-hint">mm Hg · normal: 90–120</span>
+            </label>
+            <div class="slider-wrapper">
+              <input type="range" id="resting_bp" name="resting_bp" min="80" max="200" value="120"
+                     class="range-input" aria-describedby="rbp-hint rbp-val"/>
+              <span class="range-val" id="rbp-val" aria-live="polite">120</span>
+            </div>
+          </div>
+
+          <!-- Cholesterol -->
+          <div class="field-group" id="fg-chol">
+            <label class="field-label" for="cholesterol">
+              Cholesterol
+              <span class="field-hint" id="chol-hint">mg/dL · normal: &lt;200</span>
+            </label>
+            <div class="slider-wrapper">
+              <input type="range" id="cholesterol" name="cholesterol" min="100" max="600" value="200"
+                     class="range-input" aria-describedby="chol-hint chol-val"/>
+              <span class="range-val" id="chol-val" aria-live="polite">200</span>
+            </div>
+          </div>
+
+          <!-- Max HR -->
+          <div class="field-group" id="fg-maxhr">
+            <label class="field-label" for="max_hr">
+              Maximum Heart Rate
+              <span class="field-hint" id="maxhr-hint">bpm</span>
+            </label>
+            <div class="slider-wrapper">
+              <input type="range" id="max_hr" name="max_hr" min="60" max="220" value="150"
+                     class="range-input" aria-describedby="maxhr-hint maxhr-val"/>
+              <span class="range-val" id="maxhr-val" aria-live="polite">150</span>
+            </div>
+          </div>
+
+          <!-- Oldpeak -->
+          <div class="field-group" id="fg-oldpeak">
+            <label class="field-label" for="oldpeak">
+              Oldpeak (ST Depression)
+              <span class="field-hint" id="oldpeak-hint">0 – 6</span>
+            </label>
+            <div class="slider-wrapper">
+              <input type="range" id="oldpeak" name="oldpeak" min="0" max="60" value="10"
+                     class="range-input" aria-describedby="oldpeak-hint oldpeak-val"/>
+              <span class="range-val" id="oldpeak-val" aria-live="polite">1.0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2 class="form-section-title">Clinical Classifications</h2>
+
+          <!-- Chest Pain Type -->
+          <div class="field-group" id="fg-cp">
+            <label class="field-label">Chest Pain Type</label>
+            <div class="select-grid" id="sg-chest_pain" role="radiogroup" aria-label="Chest pain type">
+              <button type="button" class="select-card active" data-field="chest_pain" data-value="ATA" id="cp-ATA" aria-pressed="true">
+                <span class="sc-code">ATA</span>
+                <span class="sc-name">Atypical Angina</span>
+              </button>
+              <button type="button" class="select-card" data-field="chest_pain" data-value="NAP" id="cp-NAP" aria-pressed="false">
+                <span class="sc-code">NAP</span>
+                <span class="sc-name">Non-Anginal Pain</span>
+              </button>
+              <button type="button" class="select-card" data-field="chest_pain" data-value="TA" id="cp-TA" aria-pressed="false">
+                <span class="sc-code">TA</span>
+                <span class="sc-name">Typical Angina</span>
+              </button>
+              <button type="button" class="select-card" data-field="chest_pain" data-value="ASY" id="cp-ASY" aria-pressed="false">
+                <span class="sc-code">ASY</span>
+                <span class="sc-name">Asymptomatic</span>
+              </button>
+            </div>
+            <input type="hidden" name="chest_pain" id="hidden-chest_pain" value="ATA"/>
+          </div>
+
+          <!-- Resting ECG -->
+          <div class="field-group" id="fg-ecg">
+            <label class="field-label">Resting ECG</label>
+            <div class="seg-control seg-3" role="radiogroup" aria-label="Resting ECG" id="seg-ecg">
+              <button type="button" class="seg-btn active" data-field="resting_ecg" data-value="Normal" id="ecg-Normal" aria-pressed="true">Normal</button>
+              <button type="button" class="seg-btn"        data-field="resting_ecg" data-value="ST"     id="ecg-ST"     aria-pressed="false">ST</button>
+              <button type="button" class="seg-btn"        data-field="resting_ecg" data-value="LVH"    id="ecg-LVH"    aria-pressed="false">LVH</button>
+            </div>
+            <input type="hidden" name="resting_ecg" id="hidden-resting_ecg" value="Normal"/>
+          </div>
+
+          <!-- Exercise Angina -->
+          <div class="field-group" id="fg-ea">
+            <label class="field-label">Exercise-Induced Angina</label>
+            <div class="seg-control" role="radiogroup" aria-label="Exercise angina" id="seg-ea">
+              <button type="button" class="seg-btn active" data-field="exercise_angina" data-value="N" id="ea-N" aria-pressed="true">No</button>
+              <button type="button" class="seg-btn"        data-field="exercise_angina" data-value="Y" id="ea-Y" aria-pressed="false">Yes</button>
+            </div>
+            <input type="hidden" name="exercise_angina" id="hidden-exercise_angina" value="N"/>
+          </div>
+
+          <!-- ST Slope -->
+          <div class="field-group" id="fg-slope">
+            <label class="field-label">ST Slope</label>
+            <div class="seg-control seg-3" role="radiogroup" aria-label="ST Slope" id="seg-slope">
+              <button type="button" class="seg-btn active" data-field="st_slope" data-value="Up"   id="slope-Up"   aria-pressed="true">Up</button>
+              <button type="button" class="seg-btn"        data-field="st_slope" data-value="Flat" id="slope-Flat" aria-pressed="false">Flat</button>
+              <button type="button" class="seg-btn"        data-field="st_slope" data-value="Down" id="slope-Down" aria-pressed="false">Down</button>
+            </div>
+            <input type="hidden" name="st_slope" id="hidden-st_slope" value="Up"/>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="manual-submit-btn" aria-label="Run heart risk prediction">
+          <span class="submit-text">Analyse Risk</span>
+          <span class="submit-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="submit-spinner" aria-hidden="true"></span>
+        </button>
+
+      </form>
+    </div>
+
+    <!-- ── Upload panel ───────────────────────────────────────────────────── -->
+    <div class="panel" id="panel-upload" role="tabpanel" aria-labelledby="tab-upload" hidden>
+      <div class="upload-area" id="upload-area" tabindex="0" role="button"
+           aria-label="Drop zone: click or drag a CSV or text file here"
+           aria-describedby="upload-desc">
+        <div class="upload-icon" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="upload-title">Drop your file here</p>
+        <p class="upload-sub" id="upload-desc">Supports <strong>CSV</strong> (with column headers) or a <strong>.txt</strong> file with key=value pairs</p>
+        <label class="upload-browse-btn" for="file-input" id="upload-browse-label">
+          Browse File
+          <input type="file" id="file-input" name="file" accept=".csv,.txt,.pdf" aria-label="Select a file to upload"/>
+        </label>
+      </div>
+
+      <div class="csv-template-hint" id="csv-template">
+        <h3 class="template-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Expected CSV Columns
+        </h3>
+        <code class="template-code">Age,Sex,ChestPainType,RestingBP,Cholesterol,FastingBS,RestingECG,MaxHR,ExerciseAngina,Oldpeak,ST_Slope</code>
+        <p class="template-example">Example row: <code>54,M,ASY,150,195,0,Normal,122,N,0.0,Up</code></p>
+      </div>
+
+      <button class="submit-btn" id="upload-submit-btn" aria-label="Run prediction from uploaded file" disabled>
+        <span class="submit-text">Analyse File</span>
+        <span class="submit-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="submit-spinner" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <!-- ── Result panel ───────────────────────────────────────────────────── -->
+    <div class="result-panel" id="result-panel" aria-live="polite" aria-atomic="true" hidden>
+      <div class="result-inner" id="result-inner">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────────── -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg width="20" height="20" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <circle cx="14" cy="14" r="14" fill="url(#footerGrad)"/>
+          <path d="M8 14 C8 10 11 7 14 7 C17 7 20 10 20 14 L14 21 Z" fill="white" opacity="0.9"/>
+          <path d="M14 7 C17 7 20 10 20 14 C20 18 17 21 14 21 Z" fill="white" opacity="0.6"/>
+          <defs>
+            <linearGradient id="footerGrad" x1="0" y1="0" x2="28" y2="28">
+              <stop stop-color="#FF375F"/>
+              <stop offset="1" stop-color="#BF5AF2"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>CardioSense</span>
+      </div>
+      <p class="footer-copy">For educational purposes only · Not medical advice</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/predict.js"></script>
+</body>
+</html>
